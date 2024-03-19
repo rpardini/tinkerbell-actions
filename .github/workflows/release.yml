@@ -23,6 +23,8 @@ jobs:
           - { "action": "syslinux", "platforms": "linux/amd64,linux/arm64" }
           - { "action": "writefile", "platforms": "linux/amd64,linux/arm64" }
     name: "${{ matrix.action }} on ${{ matrix.platforms }}"
+    env:
+      OCI_TARGET: "quay.io/tinkerbellrpardini/actions"
     steps:
       - uses: actions/checkout@v4
 
@@ -43,5 +45,7 @@ jobs:
           username: ${{ secrets.QUAY_USERNAME }}
           password: ${{ secrets.QUAY_PASSWORD }}
 
-      - name: Push ${{matrix.action}} for ${{matrix.platforms}}
-        run: make push-${{matrix.action}}
+      - name: Pull, Build and Push ${{matrix.action}} for ${{matrix.platforms}}
+        run: |
+          make push-${{matrix.action}}
+          docker buildx build --pull --progress=plain --platform="${{matrix.platforms}}" --push -t  ${OCI_TARGET}/${{matrix.action}}:latest -f ./${{matrix.action}}/Dockerfile .
