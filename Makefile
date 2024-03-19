@@ -15,7 +15,10 @@ ACTIONS := archive2disk cexec grub2disk image2disk kexec oci2disk qemuimg2disk r
 GIT_COMMIT := $(shell git rev-parse HEAD)
 
 # Define container registry details.
-CONTAINER_REPOSITORY := quay.io/tinkerbell/actions
+CONTAINER_REPOSITORY := quay.io/tinkerbellrpardini/actions
+
+# Platforms to build for
+PLATFORMS := linux/amd64,linux/arm64
 
 include Rules.mk
 
@@ -28,7 +31,7 @@ help: ## Print this help
 
 .PHONY: $(ACTIONS)
 $(ACTIONS): ## Build a specific action image.
-	docker buildx build --platform linux/amd64 --load -t  $@:latest -f ./$@/Dockerfile .
+	docker buildx build --progress=plain --platform $(PLATFORMS) --load -t  $@:latest -f ./$@/Dockerfile .
 
 .PHONY: images
 images: ## Build all action images.
