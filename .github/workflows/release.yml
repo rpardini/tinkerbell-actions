@@ -46,6 +46,22 @@ jobs:
           password: ${{ secrets.QUAY_PASSWORD }}
 
       - name: Pull, Build and Push ${{matrix.action}} for ${{matrix.platforms}}
-        run: |
-          make push-${{matrix.action}}
-          docker buildx build --pull --progress=plain --platform="${{matrix.platforms}}" --push -t  ${OCI_TARGET}/${{matrix.action}}:latest -f ./${{matrix.action}}/Dockerfile .
+        id: docker_build
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./${{matrix.action}}/Dockerfile
+          platforms: ${{matrix.platforms}}
+          pull: true # Pull new version of base image, always; avoid bit-rot
+          push: true
+          labels: |
+            org.opencontainers.image.title=${{ github.repository }}
+            org.opencontainers.image.description=${{ github.event.repository.description }}
+            org.opencontainers.image.url=${{ github.event.repository.html_url }}
+            org.opencontainers.image.source=${{ github.event.repository.clone_url }}
+            org.opencontainers.image.revision=${{ github.sha }}
+            org.opencontainers.image.licenses=${{ github.event.repository.license.spdx_id }}
+          cache-from: type=gha # all-automatic Github Actions caching
+          cache-to: type=gha,mode=max
+          tags: quay.io/tinkerbellrpardini/actions/${{matrix.action}}:latest
+
