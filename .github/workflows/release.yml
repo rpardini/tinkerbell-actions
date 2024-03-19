@@ -6,8 +6,23 @@ on:
   workflow_dispatch: { }
 jobs:
   build:
-    name: Build
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          # one for each of archive2disk cexec grub2disk image2disk kexec oci2disk qemuimg2disk rootio slurp syslinux writefile
+          - { "action": "archive2disk", "platforms": "linux/amd64,linux/arm64" }
+          - { "action": "cexec", "platforms": "linux/amd64,linux/arm64" }
+          - { "action": "grub2disk", "platforms": "linux/amd64,linux/arm64" }
+          - { "action": "image2disk", "platforms": "linux/amd64,linux/arm64" }
+          - { "action": "kexec", "platforms": "linux/amd64,linux/arm64" }
+          - { "action": "oci2disk", "platforms": "linux/amd64,linux/arm64" }
+          - { "action": "qemuimg2disk", "platforms": "linux/amd64,linux/arm64" }
+          - { "action": "rootio", "platforms": "linux/amd64,linux/arm64" }
+          - { "action": "slurp", "platforms": "linux/amd64,linux/arm64" }
+          - { "action": "syslinux", "platforms": "linux/amd64,linux/arm64" }
+          - { "action": "writefile", "platforms": "linux/amd64,linux/arm64" }
+    name: "${{ matrix.action }} on ${{ matrix.platforms }}"
     steps:
       - uses: actions/checkout@v4
 
@@ -18,6 +33,9 @@ jobs:
         id: buildx
         uses: docker/setup-buildx-action@v3
 
+      - name: Build ${{matrix.action}} for ${{matrix.platforms}}
+        run: make ${{matrix.action}} GIT_COMMIT="v1.6.666" "PLATFORMS=${{matrix.platforms}}"
+
       - name: Docker Login to quay.io
         uses: docker/login-action@v3
         with:
@@ -25,8 +43,5 @@ jobs:
           username: ${{ secrets.QUAY_USERNAME }}
           password: ${{ secrets.QUAY_PASSWORD }}
 
-      - name: Build linux/${{ matrix.platform }}
-        run: make images -j$(($(nproc)/2)) # each image will already build amd64 and (emulated) arm64 in parallel anyway
-
-      - name: Push linux/${{ matrix.platform }}
-        run: make push -j $(nprox)
+      - name: Push ${{matrix.action}} for ${{matrix.platforms}}
+        run: make push-${{matrix.action}}
