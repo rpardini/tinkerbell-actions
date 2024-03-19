@@ -2,8 +2,8 @@
 
 # Build mkfs as an static
 FROM gcc:10.5.0 as mke2fs
-RUN wget https://mirrors.edge.kernel.org/pub/linux/kernel/people/tytso/e2fsprogs/v1.45.6/e2fsprogs-1.45.6.tar.gz; tar -xvzf ./e2fsprogs-1.45.6.tar.gz
-WORKDIR /e2fsprogs-1.45.6/
+RUN wget https://mirrors.edge.kernel.org/pub/linux/kernel/people/tytso/e2fsprogs/v1.47.0/e2fsprogs-1.47.0.tar.gz; tar -xvzf ./e2fsprogs-1.47.0.tar.gz
+WORKDIR /e2fsprogs-1.47.0/
 RUN ./configure --enable-static=yes CFLAGS='-g -O2 -static'
 RUN make
 RUN make -C misc mke2fs.static
@@ -36,12 +36,12 @@ RUN ./configure
 RUN make LDFLAGS="--static"
 
 # build lvm2 as static
-FROM alpine:3.18 as lvm
-RUN apk update && apk add lvm2-static=2.03.21-r3
+FROM alpine:3 as lvm
+RUN apk update && apk add lvm2-static
 
 # Build final image
 FROM scratch
-COPY --from=mke2fs /e2fsprogs-1.45.6/misc/mke2fs.static /sbin/mke2fs
+COPY --from=mke2fs /e2fsprogs-1.47.0/misc/mke2fs.static /sbin/mke2fs
 COPY --from=swap util-linux/swapon /sbin/swapon
 COPY --from=swap util-linux/mkswap /sbin/mkswap
 COPY --from=fattools dosfstools/src/mkfs.fat /sbin/mkfs.fat
