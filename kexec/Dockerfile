@@ -5,5 +5,5 @@ WORKDIR /src/kexec
 RUN CGO_ENABLED=1 GOOS=linux go build -a -ldflags "-linkmode external -extldflags '-static' -s -w" -o kexec
 
 FROM scratch
-COPY --from=kexec /src/kexec/kexec /usr/bin/kexec
-ENTRYPOINT ["/usr/bin/kexec"]
+COPY --from=kexec /src/kexec/kexec /kexec
+ENTRYPOINT ["/kexec"]

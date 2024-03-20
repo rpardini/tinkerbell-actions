@@ -42,5 +42,5 @@ COPY --from=swap util-linux/swapon /sbin/swapon
 COPY --from=swap util-linux/mkswap /sbin/mkswap
 COPY --from=fattools dosfstools/src/mkfs.fat /sbin/mkfs.fat
 COPY --from=lvm /usr/sbin/lvm.static /sbin/lvm
-COPY --from=rootio /src/rootio/rootio /usr/bin/rootio
-ENTRYPOINT ["/usr/bin/rootio"]
+COPY --from=rootio /src/rootio/rootio /rootio
+ENTRYPOINT ["/rootio"]

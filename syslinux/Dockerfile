@@ -22,5 +22,5 @@ RUN CGO_ENABLED=1 GOOS=linux go build -a -ldflags "-linkmode external -extldflag
 FROM alpine
 COPY --from=syslinux3.86 /syslinux-3.86/mbr/mbr.bin /mbr.bin.386
 COPY --from=syslinux3.86 /syslinux-3.86/linux/syslinux /syslinux.386
-COPY --from=syslinux /src/syslinux/syslinux /usr/bin/syslinux
-ENTRYPOINT ["/usr/bin/syslinux"]
+COPY --from=syslinux /src/syslinux/syslinux /syslinux
+ENTRYPOINT ["/syslinux"]

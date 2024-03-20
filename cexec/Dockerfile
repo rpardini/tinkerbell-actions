@@ -5,5 +5,5 @@ WORKDIR /src/cexec
 RUN CGO_ENABLED=1 GOOS=linux go build -a -ldflags "-linkmode external -extldflags '-static' -s -w" -o cexec
 
 FROM scratch
-COPY --from=cexec /src/cexec/cexec /usr/bin/cexec
-ENTRYPOINT ["/usr/bin/cexec"]
+COPY --from=cexec /src/cexec/cexec /cexec
+ENTRYPOINT ["/cexec"]

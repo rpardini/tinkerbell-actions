@@ -5,5 +5,5 @@ WORKDIR /src/grub2disk
 RUN CGO_ENABLED=1 GOOS=linux go build -a -ldflags "-linkmode external -extldflags '-static' -s -w" -o grub2disk
 
 FROM scratch
-COPY --from=grub2disk /src/grub2disk/grub2disk /usr/bin/grub2disk
-ENTRYPOINT ["/usr/bin/grub2disk"]
+COPY --from=grub2disk /src/grub2disk/grub2disk /grub2disk
+ENTRYPOINT ["/grub2disk"]

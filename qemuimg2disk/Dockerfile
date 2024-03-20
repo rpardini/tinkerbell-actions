@@ -14,10 +14,10 @@ COPY --from=builder /bin/qemu-img /bin/qemu-img
 COPY --from=builder /bin/sh /bin/sh
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
 COPY --from=builder /lib/ld-musl*  /lib/
-COPY --from=qemuimg2disk /src/qemuimg2disk/qemuimg2disk /usr/bin/qemuimg2disk
-COPY --from=qemuimg2disk /src/qemuimg2disk/entrypoint.sh /usr/bin/entrypoint.sh
+COPY --from=qemuimg2disk /src/qemuimg2disk/qemuimg2disk /qemuimg2disk
+COPY --from=qemuimg2disk /src/qemuimg2disk/entrypoint.sh /entrypoint.sh
 
 # Flatten the collection into a minimal layer set.
 FROM scratch
 COPY --from=collect / /
-ENTRYPOINT ["/usr/bin/entrypoint.sh"]
+ENTRYPOINT ["/entrypoint.sh"]

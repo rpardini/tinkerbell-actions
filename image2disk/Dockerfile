@@ -8,5 +8,5 @@ RUN ls -la image2disk
 FROM scratch
 # Add Certificates into the image, for anything that does HTTPS calls
 COPY --from=image2disk /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
-COPY --from=image2disk /src/image2disk/image2disk /usr/bin/image2disk
-ENTRYPOINT ["/usr/bin/image2disk"]
+COPY --from=image2disk /src/image2disk/image2disk /image2disk
+ENTRYPOINT ["/image2disk"]
