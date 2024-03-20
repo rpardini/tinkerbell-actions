@@ -25,6 +25,7 @@ jobs:
     name: "${{ matrix.action }} on ${{ matrix.platforms }}"
     env:
       OCI_TARGET: "quay.io/tinkerbellrpardini/actions"
+      BUILDX_NO_DEFAULT_ATTESTATIONS: "1"
     steps:
       - uses: actions/checkout@v4
 
