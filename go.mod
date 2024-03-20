@@ -10,10 +10,10 @@ require (
 	github.com/klauspost/compress v1.17.7
 	github.com/opencontainers/go-digest v1.0.0
 	github.com/pkg/errors v0.9.1
-	github.com/sirupsen/logrus v1.9.0
-	github.com/spf13/cobra v1.1.3
+	github.com/sirupsen/logrus v1.9.3
+	github.com/spf13/cobra v1.8.0
 	github.com/ulikunitz/xz v0.5.11
-	golang.org/x/sys v0.5.0
+	golang.org/x/sys v0.18.0
 )
 
 require (
@@ -24,7 +24,7 @@ require (
 	github.com/golang/protobuf v1.3.2 // indirect
 	github.com/google/uuid v1.3.0 // indirect
 	github.com/hashicorp/golang-lru v0.5.1 // indirect
-	github.com/inconshreveable/mousetrap v1.0.0 // indirect
+	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/opencontainers/image-spec v1.0.1 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
 	go.opencensus.io v0.22.0 // indirect
