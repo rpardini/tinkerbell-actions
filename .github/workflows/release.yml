@@ -11,17 +11,17 @@ jobs:
       matrix:
         include:
           # one for each of archive2disk cexec grub2disk image2disk kexec oci2disk qemuimg2disk rootio slurp syslinux writefile
-          - { "action": "archive2disk", "platforms": "linux/amd64,linux/arm64" }
-          - { "action": "cexec", "platforms": "linux/amd64,linux/arm64" }
-          - { "action": "grub2disk", "platforms": "linux/amd64,linux/arm64" }
           - { "action": "image2disk", "platforms": "linux/amd64,linux/arm64" }
-          - { "action": "kexec", "platforms": "linux/amd64,linux/arm64" }
-          - { "action": "oci2disk", "platforms": "linux/amd64,linux/arm64" }
-          - { "action": "qemuimg2disk", "platforms": "linux/amd64,linux/arm64" }
-          - { "action": "rootio", "platforms": "linux/amd64,linux/arm64" }
-          - { "action": "slurp", "platforms": "linux/amd64,linux/arm64" }
-          - { "action": "syslinux", "platforms": "linux/amd64,linux/arm64" }
-          - { "action": "writefile", "platforms": "linux/amd64,linux/arm64" }
+          #- { "action": "archive2disk", "platforms": "linux/amd64,linux/arm64" }
+          #- { "action": "cexec", "platforms": "linux/amd64,linux/arm64" }
+          #- { "action": "grub2disk", "platforms": "linux/amd64,linux/arm64" }
+          #- { "action": "kexec", "platforms": "linux/amd64,linux/arm64" }
+          #- { "action": "oci2disk", "platforms": "linux/amd64,linux/arm64" }
+          #- { "action": "qemuimg2disk", "platforms": "linux/amd64,linux/arm64" }
+          #- { "action": "rootio", "platforms": "linux/amd64,linux/arm64" }
+          #- { "action": "slurp", "platforms": "linux/amd64,linux/arm64" }
+          #- { "action": "syslinux", "platforms": "linux/amd64,linux/arm64" }
+          #- { "action": "writefile", "platforms": "linux/amd64,linux/arm64" }
     name: "${{ matrix.action }} on ${{ matrix.platforms }}"
     env:
       OCI_TARGET: "quay.io/tinkerbellrpardini/actions"
