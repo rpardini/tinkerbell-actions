@@ -1,5 +1,3 @@
-# syntax=docker/dockerfile:1
-
 # Build syslinux as an syslinux3.86
 FROM gcc:10.2.0 as syslinux3.86
 RUN apt-get update -y; apt-get install -y nasm build-essential uuid-dev
@@ -18,9 +16,7 @@ FROM golang:1.21-alpine as syslinux
 RUN apk add --no-cache git ca-certificates gcc linux-headers musl-dev
 COPY . /src
 WORKDIR /src/syslinux
-RUN --mount=type=cache,sharing=locked,id=gomod,target=/go/pkg/mod/cache \
-    --mount=type=cache,sharing=locked,id=goroot,target=/root/.cache/go-build \
-    CGO_ENABLED=1 GOOS=linux go build -a -ldflags "-linkmode external -extldflags '-static' -s -w" -o syslinux
+RUN CGO_ENABLED=1 GOOS=linux go build -a -ldflags "-linkmode external -extldflags '-static' -s -w" -o syslinux
 
 # Build final image
 FROM alpine

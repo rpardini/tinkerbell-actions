@@ -1,5 +1,3 @@
-# syntax=docker/dockerfile:1
-
 FROM alpine:3 as builder
 RUN apk add --no-cache qemu-img ca-certificates
 RUN cp -v /usr/bin/qemu-img /bin/qemu-img
