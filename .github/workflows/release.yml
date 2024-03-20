@@ -42,7 +42,7 @@ jobs:
           username: ${{ secrets.QUAY_USERNAME }}
           password: ${{ secrets.QUAY_PASSWORD }}
 
-      - name: Pull, Build and Push ${{matrix.action}} for ${{matrix.platforms}}
+      - name: Pull, Build ${{matrix.action}} for ${{matrix.platforms}}
         id: docker_build
         uses: docker/build-push-action@v5
         with:
@@ -50,15 +50,19 @@ jobs:
           file: ./${{matrix.action}}/Dockerfile
           platforms: ${{matrix.platforms}}
           pull: true # Pull new version of base image, always; avoid bit-rot
-          push: true
-          labels: |
-            org.opencontainers.image.title=${{ github.repository }}
-            org.opencontainers.image.description=${{ github.event.repository.description }}
-            org.opencontainers.image.url=${{ github.event.repository.html_url }}
-            org.opencontainers.image.source=${{ github.event.repository.clone_url }}
-            org.opencontainers.image.revision=${{ github.sha }}
-            org.opencontainers.image.licenses=${{ github.event.repository.license.spdx_id }}
+          push: false # don't push, we'll load into Docker and push from there
+          load: true
           cache-from: type=gha,scope=${{matrix.action}} # all-automatic Github Actions caching
           cache-to: type=gha,mode=max,scope=${{matrix.action}}
           tags: quay.io/tinkerbellrpardini/actions/${{matrix.action}}:latest
+          #labels: |
+          #  org.opencontainers.image.title=${{ github.repository }}
+          #  org.opencontainers.image.description=${{ github.event.repository.description }}
+          #  org.opencontainers.image.url=${{ github.event.repository.html_url }}
+          #  org.opencontainers.image.source=${{ github.event.repository.clone_url }}
+          #  org.opencontainers.image.revision=${{ github.sha }}
+          #  org.opencontainers.image.licenses=${{ github.event.repository.license.spdx_id }}
 
+      - name: Push ${{matrix.action}} for ${{matrix.platforms}}
+        run: |
+          docker push quay.io/tinkerbellrpardini/actions/${{matrix.action}}:latest
