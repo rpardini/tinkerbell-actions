@@ -75,4 +75,4 @@ jobs:
 
       - name: Push ${{matrix.action}} for ${{matrix.platforms}}
         run: |
-          docker push quay.io/tinkerbellrpardini/actions/${{matrix.action}}:latest
+          docker push quay.io/tinkerbellrpardini/actions/${{matrix.action}}:latest || docker push quay.io/tinkerbellrpardini/actions/${{matrix.action}}:latest || docker push quay.io/tinkerbellrpardini/actions/${{matrix.action}}:latest
