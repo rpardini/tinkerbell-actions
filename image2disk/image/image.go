@@ -135,13 +135,13 @@ func findDecompressor(imageURL string, r io.Reader) (io.ReadCloser, error) {
 		}
 		return reader, nil
 	case ".xz":
-		reader, err := xz.NewReader(r)
+		reader, err := xz.NewReader(r) // @TODO should be possible to parallel-decompress xz
 		if err != nil {
 			return nil, fmt.Errorf("[ERROR] New xz reader: %w", err)
 		}
 		return io.NopCloser(reader), nil
-	case ".zs":
-		reader, err := zstd.NewReader(r)
+	case ".zs": // @TODO: .zst is the default zstd extension AFAIK
+		reader, err := zstd.NewReader(r) // @TODO should be possible to parallel-decompress xz
 		if err != nil {
 			return nil, fmt.Errorf("[ERROR] New zs reader: %w", err)
 		}
