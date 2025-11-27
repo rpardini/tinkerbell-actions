@@ -9,5 +9,5 @@ RUN CGO_ENABLED=1 GOOS=linux go build -a -ldflags "-linkmode external -extldflag
 FROM scratch
 # Add Certificates into the image, for anything that does HTTPS calls
 COPY --from=writefile /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
-COPY --from=writefile /src/writefile/writefile /usr/bin/writefile
-ENTRYPOINT ["/usr/bin/writefile"]
+COPY --from=writefile /src/writefile/writefile /writefile
+ENTRYPOINT ["/writefile"]
