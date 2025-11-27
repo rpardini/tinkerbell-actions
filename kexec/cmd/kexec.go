@@ -90,9 +90,9 @@ var kexecCmd = &cobra.Command{
 			log.Fatal(err)
 		}
 
-		log.Infof("Running Kexec: kernel: %s, initrd: %s, cmdLine: %v", kernelMountPath, initrdMountPath, cmdLine)
+		log.Infof("Running Kexec with KEXEC_ARCH_DEFAULT: kernel: %s, initrd: %s, cmdLine: %v", kernelMountPath, initrdMountPath, cmdLine)
 		// Load the kernel configuration into memory
-		err = unix.KexecFileLoad(int(kernel.Fd()), int(initrd.Fd()), cmdLine, 0)
+		err = unix.KexecFileLoad(int(kernel.Fd()), int(initrd.Fd()), cmdLine, unix.KEXEC_ARCH_DEFAULT)
 		if err != nil {
 			log.Fatal(err)
 		}
