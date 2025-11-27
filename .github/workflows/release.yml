@@ -8,6 +8,7 @@ jobs:
     strategy:
       matrix:
         include:
+          - { "action": "waitdaemon", "platforms": "linux/amd64,linux/arm64" } # stolen from Jacob: https://github.com/jacobweinstock/waitdaemon
           # one for each of archive2disk cexec grub2disk image2disk kexec oci2disk qemuimg2disk rootio slurp syslinux writefile
           - { "action": "image2disk", "platforms": "linux/amd64,linux/arm64" }
           #- { "action": "archive2disk", "platforms": "linux/amd64,linux/arm64" }
