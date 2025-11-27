@@ -7,5 +7,5 @@ RUN --mount=type=cache,sharing=locked,id=gomod,target=/go/pkg/mod/cache \
     CGO_ENABLED=0 GOOS=linux go build -ldflags "-s -w" -o kexec
 
 FROM scratch
-COPY --from=kexec /src/kexec/kexec /usr/bin/kexec
-ENTRYPOINT ["/usr/bin/kexec"]
+COPY --from=kexec /src/kexec/kexec /kexec
+ENTRYPOINT ["/kexec"]
