@@ -1,8 +1,6 @@
 name: Release
 on:
-  #push:
-  #  branches:
-  #    - "main"
+  push: { branches: [ "main" ] }
   workflow_dispatch: { }
 jobs:
   build:
@@ -56,7 +54,7 @@ jobs:
           load: false # no, all in buildkit, otherwise can't export "ERROR: failed to build: docker exporter does not currently support exporting manifest lists"
           cache-from: type=gha,scope=${{matrix.action}} # all-automatic Github Actions caching
           cache-to: type=gha,mode=max,scope=${{matrix.action}}
-          tags: quay.io/tinkerbellrpardini/actions/${{matrix.action}}:latest
+          tags: quay.io/tinkerbellrpardini/actions/${{matrix.action}}:v0.0.${{ github.run_number }}
           #labels: |
           #  org.opencontainers.image.title=${{ github.repository }}
           #  org.opencontainers.image.description=${{ github.event.repository.description }}
