@@ -1,0 +1,8 @@
+.github
+.gitignore
+.git
+.idea
+*.md
+LICENSE
+Makefile
+*.mk
