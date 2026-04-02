@@ -1,11 +1,23 @@
-FROM golang:1.23-alpine AS waitdaemon
-WORKDIR /src
-COPY waitdaemon/go.mod waitdaemon/go.sum /src/
-RUN go mod download
-COPY waitdaemon/main.go /src/
-RUN ls -la
-RUN go build -a -o waitdaemon
+FROM golang:1.25 AS builder
 
-FROM scratch
-COPY --from=waitdaemon /src/waitdaemon /waitdaemon
-ENTRYPOINT ["/waitdaemon"]
+WORKDIR /code
+COPY go.mod go.sum /code/
+RUN go mod download
+
+COPY . /code
+
+RUN CGO_ENABLED=0 go build -o /waitdaemon main.go
+
+FROM alpine AS nerdctl
+ARG TARGETARCH
+ARG NERDCTL_VERSION=2.2.1
+RUN apk add --no-cache curl tar gzip && \
+    curl -fsSL "https://github.com/containerd/nerdctl/releases/download/v${NERDCTL_VERSION}/nerdctl-${NERDCTL_VERSION}-linux-${TARGETARCH}.tar.gz" \
+    | tar -xzC /usr/local/bin nerdctl
+
+FROM alpine
+RUN apk add --no-cache util-linux
+COPY --from=builder /waitdaemon /waitdaemon
+COPY --from=nerdctl /usr/local/bin/nerdctl /usr/local/bin/nerdctl
+
+ENTRYPOINT [ "/waitdaemon" ]
