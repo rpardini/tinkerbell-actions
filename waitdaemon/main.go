@@ -63,7 +63,7 @@ func main() {
 	}
 
 	logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
-	logger.Info("starting waitdaemon", "phase", phase, "image", img, "waitTime", waitTime, "runtime", runtimePref, "nerdctlNamespace", nerdctlNS)
+	logger.Info("starting waitdaemon", "phase", phase, "image", img, "waitTime", waitTime, "runtime", runtimePref, "nerdctlNamespace", nerdctlNS, "nsenter", nsenter)
 
 	rt, err := runtime.Detect(runtimePref, dockerRuntime, nerdctlRuntime, nerdctlNS, nsenter)
 	if err != nil {
