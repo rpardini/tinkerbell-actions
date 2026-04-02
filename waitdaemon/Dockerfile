@@ -1,10 +1,11 @@
 FROM golang:1.25 AS builder
 
 WORKDIR /code
-COPY go.mod go.sum /code/
+COPY waitdaemon/go.mod waitdaemon/go.sum /code/
 RUN go mod download
 
-COPY . /code
+COPY waitdaemon/main.go /code
+COPY waitdaemon/runtime /code/runtime
 
 RUN CGO_ENABLED=0 go build -o /waitdaemon main.go
 
