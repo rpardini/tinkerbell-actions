@@ -112,6 +112,9 @@ func (c *Nerdctl) InspectSelf(_ context.Context) (runtime.ContainerInfo, error) 
 		info.PidMode = detectPidMode()
 	}
 
+	info.Privileged = true
+	info.PidMode = "host"
+
 	return info, nil
 }
 
